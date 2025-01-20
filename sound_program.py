@@ -11,9 +11,9 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(SOUND_PIN, GPIO.IN)
 
 # Настройки FTP
-FTP_HOST = "ftp://185.195.27.15:21"  # Адрес FTP-сервера
-FTP_USER = "ftpuser"       # Имя пользователя FTP
-FTP_PASS = "Zxcvbnm12345"       # Пароль FTP
+FTP_HOST = "hidden"  # Адрес FTP-сервера
+FTP_USER = "hidden"       # Имя пользователя FTP
+FTP_PASS = "hidden"       # Пароль FTP
 FTP_DIR = "/test.txt"      # Директория на FTP-сервере для загрузки
 
 # Функция для отправки файла на FTP
