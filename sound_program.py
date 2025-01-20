@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 from ftplib import FTP
 from datetime import datetime
+import os  # Для работы с файлами
 
 # Настройка пина для цифрового сигнала с датчика звука
 SOUND_PIN = 17  # GPIO пин для DO датчика
@@ -14,7 +15,7 @@ GPIO.setup(SOUND_PIN, GPIO.IN)
 FTP_HOST = "hidden"  # Адрес FTP-сервера
 FTP_USER = "hidden"       # Имя пользователя FTP
 FTP_PASS = "hidden"       # Пароль FTP
-FTP_DIR = "/test.txt"      # Директория на FTP-сервере для загрузки
+FTP_DIR = "/test"      # Директория на FTP-сервере для загрузки
 
 # Функция для отправки файла на FTP
 def upload_file(filename):
@@ -26,13 +27,22 @@ def upload_file(filename):
         # Открываем файл и отправляем
         with open(filename, "rb") as file:
             ftp.storbinary(f"STOR {filename}", file)
-
-        ftp.quit()
         print(f"Файл {filename} успешно загружен на FTP-сервер.")
-
+        
+        # Удаляем файл с локального хранилища
+        os.remove(filename)  # Удаляем локальный файл
+        print(f"Локальный файл {filename} удален.")
+        
+        ftp.quit()
+        
     except Exception as e:
         print(f"Ошибка при отправке файла на FTP: {e}")
-
+        
+        # Если возникла ошибка при загрузке, удаляем локальный файл
+        if os.path.exists(filename):
+            os.remove(filename)
+            print(f"Локальный файл {filename} удален после ошибки загрузки на FTP.")
+       
 # Основной цикл программы
 try:
     while True:
